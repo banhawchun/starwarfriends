@@ -1,21 +1,20 @@
 import React, { Fragment } from 'react'; 
 import Card from './Card';
 
-const CardList = ({ starwars }) => {
+const CardList = ({ data }) => {
+	const CardListStarwar = data.map((user, i) => {
+		return(
+			<Card
+				key={user.url}
+				name={user.name}
+				homeworld={user.homeworld}
+				species={user.species}
+			/>
+		);
+	})
 	return(
 		<Fragment>
-			{
-				starwars.map((starwar, i) =>{
-					return(
-						<Card 
-							key={i}
-							name={starwars[i].name}
-							homeworld={starwars[i].homeworld}
-							species={starwars[i].species}
-						/>
-					);
-				}) 
-			}
+			{CardListStarwar}
 		</Fragment>
 	);
 }

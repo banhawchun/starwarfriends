@@ -9,38 +9,39 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      starwars: [],
+      data: [],
       searchField: ''
     }
   }
 
   componentDidMount() {
-    fetch('https://jsonplaceholder.typicode.com/users')
-    .then(resp => resp.json())
-    .then(users => this.setState({ starwars: users }));
-  }
+    const url = 'https://swapi.co/api/people/';
 
+    fetch(url)
+    .then(response => response.json())
+    .then(users => this.setState({ data: users.results }))
+  }
+  
   onSearchChange = (event) =>{
     this.setState({ searchField: event.target.value })
   }
 
   render() {
-    const { starwars, searchField } = this.state;
-    const filteredStarwar = starwars.filter(starwar => {
+    const { data, searchField } = this.state;
+    const filteredStarwar = data.filter(starwar => {
       return starwar.name.toLowerCase().includes(searchField.toLowerCase());
     })
 
-    return (!starwars.length) ?
-      <h1>Loading...</h1> :
-      (
-        <div className='tc'>
-          <h1 className='f1'>Star War Peeps</h1>
-          <SearchBox searchChange={this.onSearchChange}/>
-          <Scroll>
-            <CardList starwars={filteredStarwar}/>
-          </Scroll>
-        </div>
-      );
+    return ( 
+      <div className='tc'>
+        <h1 className='f1'>Star War Peeps</h1>
+        <SearchBox searchChange={this.onSearchChange}/>
+        <Scroll>
+          <CardList data={filteredStarwar}/>
+        </Scroll>
+      </div>
+
+    );
   }
 }
 
